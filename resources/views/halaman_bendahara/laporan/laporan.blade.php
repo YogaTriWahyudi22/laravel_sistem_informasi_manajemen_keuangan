@@ -31,13 +31,14 @@
                             </thead>
                             <tbody>
                                 @foreach ($index as $i)
+                                    {{-- @dd($i) --}}
                                     <tr class="text center">
                                         <td class="table-plus">{{ $loop->iteration }}</td>
                                         <td>{{ $i->tanggal }}</td>
-                                        <td>{{ number_format($i->saldo_awal) }}</td>
+                                        <td>{{ number_format($laporan->saldo_awal) }}</td>
                                         <td>{{ number_format($i->kas_masuk) }}</td>
                                         <td>{{ number_format($i->kas_keluar) }}</td>
-                                        <td>{{ number_format($i->saldo_awal - $i->kas_keluar) }}</td>
+                                        <td>{{ number_format($laporan->saldo_awal - $i->kas_keluar) }}</td>
                                         <td>
                                             <div class="btn-group" role="group" aria-label="Basic example">
 

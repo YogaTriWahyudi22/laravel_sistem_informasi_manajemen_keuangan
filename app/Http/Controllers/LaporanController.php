@@ -4,13 +4,18 @@ namespace App\Http\Controllers;
 
 use App\Models\Laporan;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class LaporanController extends Controller
 {
     public function index()
     {
+        $tgl_kemarin = date('Y-m-d', strtotime('-1 day', strtotime(date('Y-m-d'))));
+        $laporan = DB::table('laporan')
+            ->where('tanggal', $tgl_kemarin)
+            ->first();
         $index = Laporan::all();
-        return view('halaman_bendahara.laporan.laporan', compact('index'));
+        return view('halaman_bendahara.laporan.laporan', compact('index', 'laporan'));
     }
 
     public function detail($id)

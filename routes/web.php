@@ -145,7 +145,6 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::prefix('pkl')->group(function () {
         Route::get('index', [PKLController::class, 'index'])->name('pkl');
-        // Route::POST('cari', [PKLController::class, 'cari'])->name('pkl_cari');
         Route::POST('uang_pkl', [PKLController::class, 'uang_pkl'])->name('uang_pkl');
         Route::get('detail/{id}', [PKLController::class, 'detail'])->name('pkl_detail');
     });
