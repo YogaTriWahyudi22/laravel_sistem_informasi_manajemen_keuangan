@@ -34,7 +34,7 @@ class LaporanController extends Controller
 
         $biaya_lain = Laporan::leftjoin('biaya_lain', 'laporan.tanggal', '=', 'biaya_lain.tanggal')->leftjoin('users', 'biaya_lain.id_user', '=', 'users.id')->where('id_laporan', $id)->orwhere('biaya_lain.tanggal', $laporan->tanggal)->get();
 
-        $gaji = Laporan::leftjoin('gaji', 'laporan.tanggal', '=', 'gaji.tanggal')->where('id_laporan', $id)->orwhere('gaji.tanggal', $laporan->tanggal)->get();
+        $gaji = Laporan::leftjoin('gaji', 'laporan.tanggal', '=', 'gaji.tanggal')->leftjoin('guru', 'gaji.id_guru', '=', 'guru.id_guru')->where('id_laporan', $id)->orwhere('gaji.tanggal', $laporan->tanggal)->get();
 
 
         return view('halaman_bendahara.laporan.detail', compact('pendaftaran', 'uang_spp', 'uang_pkl', 'uang_seragam', 'uang_ujian', 'biaya_lain', 'gaji'));

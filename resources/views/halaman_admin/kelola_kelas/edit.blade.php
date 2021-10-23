@@ -42,7 +42,7 @@
                             <label class="col-sm-12 col-md-2 col-form-label">Wali Kelas</label>
                             <div class="col-sm-12 col-md-10">
                                 <input class="form-control" name="wali_kelas" value="{{ $edit->wali_kelas }}"
-                                    placeholder="Inputkan Username" type="text" required>
+                                    placeholder="Inputkan Wali Kelas" type="text" required>
                             </div>
                         </div>
 

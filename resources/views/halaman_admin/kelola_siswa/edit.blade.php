@@ -106,7 +106,7 @@
                             <label class="col-sm-12 col-md-2 col-form-label">Status Siswa</label>
                             <div class="col-sm-12 col-md-10">
                                 <select class="custom-select col-12" name="status" required>
-                                    <option selected="">{{ $edit->status }}</option>
+                                    <option value="{{ $edit->status }}">{{ $edit->status }}</option>
                                     <option value="Aktif">Aktif</option>
                                     <option value="Tidak Aktif">Tidak Aktif</option>
                                 </select>

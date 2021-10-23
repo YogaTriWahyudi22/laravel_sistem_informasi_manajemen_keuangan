@@ -46,7 +46,7 @@
                         <div class="form-group row">
                             <label class="col-sm-12 col-md-2 col-form-label">Nama Siswa</label>
                             <div class="col-sm-12 col-md-10">
-                                <input class="form-control" name="nama_siswa" placeholder="inputkan nama kelas"
+                                <input class="form-control" name="nama_siswa" placeholder="inputkan nama Siswa"
                                     type="text" required>
                             </div>
                         </div>
@@ -62,7 +62,7 @@
                         <div class="form-group row">
                             <label class="col-sm-12 col-md-2 col-form-label">Jenis Kelamin</label>
                             <div class="col-sm-12 col-md-10">
-                                <input class="form-control" name="jk" placeholder="Inputkan Username" type="text"
+                                <input class="form-control" name="jk" placeholder="Inputkan Jenis Kelamin" type="text"
                                     required>
                             </div>
                         </div>
@@ -70,16 +70,16 @@
                         <div class="form-group row">
                             <label class="col-sm-12 col-md-2 col-form-label">Tanggal Lahir</label>
                             <div class="col-sm-12 col-md-10">
-                                <input class="form-control" name="tanggal_lahir" placeholder="Inputkan Username"
-                                    type="date" required>
+                                <input class="form-control" name="tanggal_lahir" placeholder="Tanggal Lahir" type="date"
+                                    required>
                             </div>
                         </div>
 
                         <div class="form-group row">
                             <label class="col-sm-12 col-md-2 col-form-label">Wali SIswa</label>
                             <div class="col-sm-12 col-md-10">
-                                <input class="form-control" name="wali_siswa" placeholder="Inputkan Username" type="text"
-                                    required>
+                                <input class="form-control" name="wali_siswa" placeholder="Inputkan Wali Siswa"
+                                    type="text" required>
                             </div>
                         </div>
 
@@ -95,7 +95,7 @@
                             <label class="col-sm-12 col-md-2 col-form-label">Status Siswa</label>
                             <div class="col-sm-12 col-md-10">
                                 <select class="custom-select col-12" name="status" required>
-                                    <option selected="">Pilih Kelas...</option>
+                                    <option selected="">Status Siswa...</option>
                                     <option value="Aktif">Aktif</option>
                                     <option value="Tidak Aktif">Tidak Aktif</option>
                                 </select>

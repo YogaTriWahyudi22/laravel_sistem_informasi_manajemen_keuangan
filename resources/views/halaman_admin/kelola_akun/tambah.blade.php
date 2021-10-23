@@ -11,10 +11,6 @@
                                 <h4>Kelola Akun / Tambah Data</h4>
                             </div>
                             <nav aria-label="breadcrumb" role="navigation">
-                                {{-- <ol class="breadcrumb">
-                                    <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-                                    <li class="breadcrumb-item active" aria-current="page">blank</li>
-                                </ol> --}}
                             </nav>
                         </div>
                     </div>
@@ -25,7 +21,7 @@
                         <div class="form-group row">
                             <label class="col-sm-12 col-md-2 col-form-label">Nama Lengkap</label>
                             <div class="col-sm-12 col-md-10">
-                                <input class="form-control" type="text" name="nama" placeholder="Input Nama Akun"
+                                <input class="form-control" type="text" name="nama" placeholder="Input Nama Lengkap"
                                     required>
                             </div>
                         </div>

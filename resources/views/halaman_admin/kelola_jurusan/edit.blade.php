@@ -22,7 +22,7 @@
                             <label class="col-sm-12 col-md-2 col-form-label">Nama Jurusan</label>
                             <div class="col-sm-12 col-md-10">
                                 <input class="form-control" type="text" name="nama_jurusan"
-                                    value="{{ $edit->nama_jurusan }}" placeholder="Input Nama Akun" required>
+                                    value="{{ $edit->nama_jurusan }}" placeholder="Input Jurusan" required>
                             </div>
                         </div>
                         <button class="btn btn-primary" type="submit">Submit</button>
