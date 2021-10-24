@@ -85,7 +85,7 @@
                         <form action="{{ route('uang_pkl') }}" method="POST">
                             @csrf
                             <select class="form-control" name="nominal" aria-label="Default select example" required>
-                                <option selected>Pilih Kelas</option>
+                                <option selected>Pilih Cicilan</option>
                                 @if ($k->nominal == null)
 
                                     <option value="{{ $pembayaran->nominal }}">Bayar Lunas</option>

@@ -104,11 +104,25 @@
 
                 @elseif(Auth::user()->status == 'kepsek')
                     <li>
+                        <a href="{{ route('dashboard') }}" class="dropdown-toggle no-arrow">
+                            <span class="micon icon-copy fa fa-dashboard ml-1"></span><span
+                                class="mtext">Dashboard</span>
+                        </a>
+                    </li>
+
+                    <li>
                         <a href="{{ route('laporan') }}" class="dropdown-toggle no-arrow">
                             <span class="micon icon-copy fa fa-tasks"></span><span class="mtext">Laporan</span>
                         </a>
                     </li>
                 @elseif(Auth::user()->status == 'ketua_yayasan')
+                    <li>
+                        <a href="{{ route('dashboard') }}" class="dropdown-toggle no-arrow">
+                            <span class="micon icon-copy fa fa-dashboard ml-1"></span><span
+                                class="mtext">Dashboard</span>
+                        </a>
+                    </li>
+
                     <li>
                         <a href="{{ route('laporan') }}" class="dropdown-toggle no-arrow">
                             <span class="micon icon-copy fa fa-tasks"></span><span class="mtext">Laporan</span>

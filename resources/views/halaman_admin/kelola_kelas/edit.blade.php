@@ -22,10 +22,10 @@
                             <label class="col-sm-12 col-md-2 col-form-label">Kelas</label>
                             <div class="col-sm-12 col-md-10">
                                 <select class="custom-select col-12" name="kelas" required>
-                                    <option selected="">{{ $edit->kelas }}</option>
-                                    <option value="7">7</option>
-                                    <option value="8">8</option>
-                                    <option value="9">9</option>
+                                    <option value="{{ $edit->kelas }}">{{ $edit->kelas }}</option>
+                                    <option value="10">10</option>
+                                    <option value="11">11</option>
+                                    <option value="12">12</option>
                                 </select>
                             </div>
                         </div>
