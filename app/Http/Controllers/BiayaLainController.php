@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Gaji;
 use App\Models\Laporan;
 use App\Models\Biaya_lain;
+use App\Models\LaporanPengeluaran;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use RealRashid\SweetAlert\Facades\Alert;
@@ -35,27 +36,44 @@ class BiayaLainController extends Controller
         $tambah->waktu = $waktu;
         $tambah->save();
 
-        $laporan = DB::table('laporan')->where('tanggal', '=', $tanggal)->first();
-        if ($laporan == Null) {
-            Laporan::create([
-                'kas_keluar' => $nominal_jelas,
-                'tanggal' => $tanggal,
-            ]);
-        } elseif ($tanggal == $laporan->tanggal) {
-            Laporan::where('tanggal', $tanggal)->update([
-                'saldo_awal' => $laporan->saldo_awal - $nominal_jelas,
-                'kas_keluar' => $nominal_jelas + $laporan->kas_keluar,
-                'tanggal' => $tanggal,
-            ]);
-        } else {
-            Laporan::where('tanggal', $tanggal)->create([
-                'kas_masuk' => $nominal_jelas,
-                'tanggal' => $tanggal,
-            ]);
-            Laporan::update([
-                'saldo_awal' => $laporan->saldo_awal - $nominal_jelas,
-            ]);
-        }
+        Laporan::create([
+            'tanggal_pendapatan' => $tanggal,
+            'tanggal_pengeluaran' => $tanggal,
+            'keterangan' => $request->keterangan,
+            'satuan' => $request->satuan,
+            'banyak' => $request->banyak,
+            'jumlah_pengeluaran' => $nominal_jelas,
+            'status' => 'pengeluaran',
+        ]);
+
+        // $laporan = DB::table('laporan')->where('tanggal_pengeluaran', '=', $tanggal)->first();
+
+        // // jika data dilaporan kosong
+        // if ($laporan == Null) {
+        //     Laporan::create([
+        //         'tanggal_pengeluaran' => $tanggal,
+        //         'keterangan' => $request->keterangan,
+        //         'satuan' => $request->satuan,
+        //         'banyak' => $request->banyak,
+        //         'jumlah_pengeluaran' => $nominal_jelas,
+        //         'status' => 'pengeluaran',
+        //     ]);
+        // } elseif ($tanggal == $laporan->tanggal) {
+        //     // jika data di laporan ada tetapi tanggal yang di inputkan sama dengan tanggal yg sudah ada
+        //     Laporan::where('tanggal_pengeluaran', $tanggal)->update([
+        //         'jumlah_pengeluaran' => $laporan->jumlah + $nominal_jelas,
+        //     ]);
+        // } else {
+        //     // jika data sudah ada dan tanggal yg ada di dalam berbeda dengan request
+        //     Laporan::create([
+        //         'tanggal_pengeluaran' => $tanggal,
+        //         'keterangan' => $request->keterangan,
+        //         'satuan' => $request->satuan,
+        //         'banyak' => $request->banyak,
+        //         'jumlah_pengeluaran' => $nominal_jelas,
+        //         'status' => 'pengeluaran',
+        //     ]);
+        // }
         Alert::success('Data Berhasil', 'Data Berhasil Ditambah');
         return redirect()->route('pembayaran_lain');
     }

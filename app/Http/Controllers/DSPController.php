@@ -36,8 +36,11 @@ class DSPController extends Controller
     public function uang_dsp(Request $request)
     {
         date_default_timezone_set("Asia/Jakarta");
+        $tanggal = date('Y-m-d');
         $waktu = date("h:i:s");
         $uang_dsp = DB::table('uang_dsp')->where('id_siswa', $request->id_siswa)->first();
+        $laporan = DB::table('laporan')->where('sumber', '=', 'DSP-belum-lunas')->first();
+        //    JIKA PEMBAYARAN LUNAS
         if ($request->nominal == 1000000) {
             date_default_timezone_set("Asia/Jakarta");
             $tanggal = date('Y-m-d');
@@ -50,26 +53,24 @@ class DSPController extends Controller
             $tambah->tanggal = $tanggal;
             $tambah->waktu = $waktu;
             $tambah->save();
-            $laporan = DB::table('laporan')->where('tanggal', '=', $tanggal)->first();
-            if ($laporan == Null || $laporan->tanggal == Null) {
-                Laporan::create([
-                    'saldo_awal' => $request->nominal,
-                    'kas_masuk' => $request->nominal,
-                    'tanggal' => $tanggal,
-                ]);
-            } elseif ($tanggal == $laporan->tanggal) {
-                Laporan::where('tanggal', $tanggal)->update([
-                    'saldo_awal' => $request->nominal + $laporan->saldo_awal,
-                    'kas_masuk' => $request->nominal + $laporan->kas_masuk,
-                    'tanggal' => $tanggal,
-                ]);
-            }
-        } else {
+
+            // INSERT DATA KE TABLE TALPORAN
+            Laporan::create([
+                'tanggal_pendapatan' => $tanggal,
+                'tanggal_pengeluaran' => $tanggal,
+                'jumlah_pendapatan' => $request->nominal,
+                'sumber' => 'uang DSP',
+                'status' => 'pendapatan',
+            ]);
+        }
+        // JIKA PEMBAYARAN KREDIT ATAU CICILAN
+        else {
             $uang = explode("cicilan.", $request->nominal)[1];
             $ket = explode(".250000", $request->nominal)[0];
             date_default_timezone_set("Asia/Jakarta");
             $tanggal = date('Y-m-d');
             $tambah = new Uang_DSP;
+            // JIKA DATA PADA UANG DSP KOSONG
             if ($uang_dsp == Null) {
                 $tambah->id_siswa = $request->id_siswa;
                 $tambah->nominal = $uang;
@@ -78,58 +79,79 @@ class DSPController extends Controller
                 $tambah->tanggal = $tanggal;
                 $tambah->waktu = $waktu;
                 $tambah->save();
-                $laporan = DB::table('laporan')->where('tanggal', '=', $tanggal)->first();
-                if ($laporan == Null || $laporan->tanggal == Null) {
-                    Laporan::create([
-                        'saldo_awal' => $uang,
-                        'kas_masuk' => $uang,
-                        'tanggal' => $tanggal,
-                    ]);
-                } elseif ($tanggal == $laporan->tanggal) {
-                    Laporan::where('tanggal', $tanggal)->update([
-                        'saldo_awal' => $uang + $laporan->saldo_awal,
-                        'kas_masuk' => $uang + $laporan->kas_masuk,
-                        'tanggal' => $tanggal,
-                    ]);
-                }
-            } elseif ($request->id_siswa == $uang_dsp->id_siswa && $uang_dsp->nominal == "750000") {
+
+                // INSERT DATA KE TABLE TALPORAN
+                Laporan::create([
+                    'tanggal_pendapatan' => $tanggal,
+                    'tanggal_pengeluaran' => $tanggal,
+                    'jumlah_pendapatan' => $uang,
+                    'sumber' => 'DSP-belum-lunas',
+                    'status' => 'pendapatan',
+                ]);
+
+                // $laporan = DB::table('laporan')->where('tanggal', '=', $tanggal)->first();
+                // if ($laporan == Null || $laporan->tanggal == Null) {
+                //     Laporan::create([
+                //         'saldo_awal' => $uang,
+                //         'kas_masuk' => $uang,
+                //         'tanggal' => $tanggal,
+                //     ]);
+                // } elseif ($tanggal == $laporan->tanggal) {
+                //     Laporan::where('tanggal', $tanggal)->update([
+                //         'saldo_awal' => $uang + $laporan->saldo_awal,
+                //         'kas_masuk' => $uang + $laporan->kas_masuk,
+                //         'tanggal' => $tanggal,
+                //     ]);
+                // }
+            }
+            // JIKA DATA SISWA YG DI INPUTKAN SAMA DENGAN DATA SISWA YANG ADA DENGAN DATA PADA UANG DSP
+            // SERTA NOMINAL PADA DATA UANG PKL == 750000
+            elseif ($request->id_siswa == $uang_dsp->id_siswa && $uang_dsp->nominal == "750000") {
                 $edit = Uang_DSP::where('id_siswa', $request->id_siswa)->update([
+                    'tanggal_pendapatan' => $tanggal,
+                    'tanggal_pengeluaran' => $tanggal,
                     'nominal' => $uang + $uang_dsp->nominal,
                     'keterangan' => 'lunas',
                     'status' => 'lunas',
                 ]);
-                $laporan = DB::table('laporan')->where('tanggal', '=', $tanggal)->first();
-                if ($laporan == Null || $laporan->tanggal == Null) {
-                    Laporan::create([
-                        'saldo_awal' => $uang,
-                        'kas_masuk' => $uang,
-                        'tanggal' => $tanggal,
-                    ]);
-                } elseif ($tanggal == $laporan->tanggal) {
-                    Laporan::where('tanggal', $tanggal)->update([
-                        'saldo_awal' => $uang + $laporan->saldo_awal,
-                        'kas_masuk' => $uang + $laporan->kas_masuk,
-                        'tanggal' => $tanggal,
-                    ]);
-                }
-            } elseif ($request->id_siswa == $uang_dsp->id_siswa) {
+
+                // INSERT DATA KE TABLE LAPORAN
+                Laporan::where('sumber', $laporan->sumber)->update([
+                    'tanggal_pendapatan' => $tanggal,
+                    'tanggal_pengeluaran' => $tanggal,
+                    'jumlah_pendapatan' => $laporan->jumlah_pendapatan + $uang,
+                    'sumber' => 'uang DSP',
+                    'status' => 'pendapatan',
+                ]);
+
+                // if ($laporan == Null || $laporan->tanggal == Null) {
+                //     Laporan::create([
+                //         'saldo_awal' => $uang,
+                //         'kas_masuk' => $uang,
+                //         'tanggal' => $tanggal,
+                //     ]);
+                // } elseif ($tanggal == $laporan->tanggal) {
+                //     Laporan::where('tanggal', $tanggal)->update([
+                //         'saldo_awal' => $uang + $laporan->saldo_awal,
+                //         'kas_masuk' => $uang + $laporan->kas_masuk,
+                //         'tanggal' => $tanggal,
+                //     ]);
+                // }
+            }
+            // Jika NOMINAL PADA UANG PKL < 750000 DAN DATA TIDAK KOSONG
+            elseif ($request->id_siswa == $uang_dsp->id_siswa) {
                 $edit = Uang_DSP::where('id_siswa', $request->id_siswa)->update([
                     'nominal' => $uang + $uang_dsp->nominal,
                 ]);
-                $laporan = DB::table('laporan')->where('tanggal', '=', $tanggal)->first();
-                if ($laporan == Null || $laporan->tanggal == Null) {
-                    Laporan::create([
-                        'saldo_awal' => $uang,
-                        'kas_masuk' => $uang,
-                        'tanggal' => $tanggal,
-                    ]);
-                } elseif ($tanggal == $laporan->tanggal) {
-                    Laporan::where('tanggal', $tanggal)->update([
-                        'saldo_awal' => $uang + $laporan->saldo_awal,
-                        'kas_masuk' => $uang + $laporan->kas_masuk,
-                        'tanggal' => $tanggal,
-                    ]);
-                }
+
+                // INSERT DATA KE TABLE LAPORAN
+                Laporan::where('sumber', $laporan->sumber)->update([
+                    'tanggal_pendapatan' => $tanggal,
+                    'tanggal_pengeluaran' => $tanggal,
+                    'jumlah_pendapatan' => $laporan->jumlah_pendapatan + $uang,
+                    'sumber' => 'DSP-belum-lunas',
+                    'status' => 'pendapatan',
+                ]);
             }
         }
 

@@ -44,27 +44,43 @@ class GajiController extends Controller
         $tambah->waktu = $waktu;
         $tambah->save();
 
-        $laporan = DB::table('laporan')->where('tanggal', '=', $tanggal)->first();
-        if ($laporan == Null) {
-            Laporan::create([
-                'kas_keluar' => $request->nominal,
-                'tanggal' => $tanggal,
-            ]);
-        } elseif ($tanggal == $laporan->tanggal) {
-            Laporan::where('tanggal', $tanggal)->update([
-                'saldo_awal' => $laporan->saldo_awal - $request->nominal,
-                'kas_keluar' => $request->nominal + $laporan->kas_keluar,
-                'tanggal' => $tanggal,
-            ]);
-        } else {
-            Laporan::where('tanggal', $tanggal)->create([
-                'kas_masuk' => $request->nominal,
-                'tanggal' => $tanggal,
-            ]);
-            Laporan::update([
-                'saldo_awal' => $laporan->saldo_awal - $request->nominal,
-            ]);
-        }
+        Laporan::create([
+            'tanggal_pendapatan' => $tanggal,
+            'tanggal_pengeluaran' => $tanggal,
+            'keterangan' => 'Gaji Guru',
+            'satuan' => 'Jam',
+            'banyak' => $request->jam,
+            'jumlah_pengeluaran' => $request->nominal,
+            'status' => 'pengeluaran',
+        ]);
+
+        // $laporan = DB::table('laporan')->where('tanggal_pengeluaran', '=', $tanggal)->first();
+        // if ($laporan == Null) {
+        //     // jika data laporan kosong
+        //     Laporan::create([
+        //         'tanggal_pengeluaran' => $tanggal,
+        //         'keterangan' => 'Gaji Guru',
+        //         'satuan' => 'Jam',
+        //         'banyak' => $request->jam,
+        //         'jumlah_pengeluaran' => $request->nominal,
+        //         'status' => 'pengeluaran',
+        //     ]);
+        // } elseif ($tanggal == $laporan->tanggal_pengeluaran) {
+        //     // jika data laporan ada dan tanggal di laporan sama dengan tanggal inputan
+        //     Laporan::where('tanggal_pengeluaran', $tanggal)->update([
+        //         'jumlah_pengeluaran' => $laporan->jumlah_pengeluaran + $request->nominal,
+        //     ]);
+        // } else {
+        //     // jika keduanya tidak ada
+        //     Laporan::create([
+        //         'tanggal_pengeluaran' => $tanggal,
+        //         'keterangan' => 'Gaji Guru',
+        //         'satuan' => 'Jam',
+        //         'banyak' => $request->jam,
+        //         'jumlah_pengeluaran' => $request->nominal,
+        //         'status' => 'pengeluaran',
+        //     ]);
+        // }
 
         Alert::success('Data Berhasil', 'Data Berhasil ditambahkan');
         return redirect()->route('pembayaran_gaji');

@@ -84,9 +84,20 @@
                             <label class="control-label"> Nominal</label>
                             <div><input type="text" name="nominal" id="harga_satuan" class="form-control"></div>
                         </div>
+
                         <div class="form-group">
                             <label class="control-label"> Keterangan</label>
                             <div><input type="text" name="keterangan" class="form-control"></div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label"> Satuan</label>
+                            <div><input type="text" name="satuan" class="form-control"></div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label"> Kuantiti</label>
+                            <div><input type="text" name="banyak" class="form-control"></div>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal"><span

@@ -22,13 +22,13 @@
             @if (Auth::user()->status !== 'admin')
 
                 <div class="row">
-                    <div class="col-xl-3 mb-30">
+                    {{-- <div class="col-xl-3 mb-30">
                         <div class="card-box height-100-p widget-style1">
                             <div class="d-flex flex-wrap align-items-center">
                                 <div class="progress-data">
                                     <div class="text-center"
                                         style="background-color: #045de9;
-                                                                                                                                background-image: linear-gradient(315deg, #045de9 0%, #09c6f9 74%);">
+                                                                                                                                        background-image: linear-gradient(315deg, #045de9 0%, #09c6f9 74%);">
                                         <h1> <i class="micon icon-copy fa fa-money" aria-hidden="true"></i> </h1>
                                     </div>
                                 </div>
@@ -49,15 +49,15 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-xl-3 mb-30">
+                    </div> --}}
+                    {{-- <div class="col-xl-3 mb-30">
                         <div class="card-box height-100-p widget-style1">
                             <div class="d-flex flex-wrap align-items-center">
                                 <div class="progress-data">
                                     <div class="text-center"
                                         style="background-color: #f7b42c;
-                                                                                                                                background-image: linear-gradient(315deg, #f7b42c 0%, #fc575e 74%);
-                                                                                                                                 ">
+                                                                                                                                        background-image: linear-gradient(315deg, #f7b42c 0%, #fc575e 74%);
+                                                                                                                                         ">
                                         <h1><span class="micon icon-copy fa fa-level-down"></h1></span>
                                     </div>
                                 </div>
@@ -76,15 +76,15 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-xl-3 mb-30">
+                    </div> --}}
+                    {{-- <div class="col-xl-3 mb-30">
                         <div class="card-box height-100-p widget-style1">
                             <div class="d-flex flex-wrap align-items-center">
                                 <div class="progress-data">
                                     <div class="text-center" style="background-color: #7ee8fa;
-                                                                                                        background-image: linear-gradient(315deg, #7ee8fa 0%, #80ff72 74%);
-                                                                                                        
-                                                                                                                ">
+                                                                                                            background-image: linear-gradient(315deg, #7ee8fa 0%, #80ff72 74%);
+                                                                                                            
+                                                                                                                    ">
                                         <h1><span class="micon icon-copy fa fa-level-up"></span></h1>
                                     </div>
                                 </div>
@@ -97,20 +97,20 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-xl-3 mb-30">
+                    </div> --}}
+                    {{-- <div class="col-xl-3 mb-30">
                         <div class="card-box height-100-p widget-style1">
                             <div class="d-flex flex-wrap align-items-center">
                                 <div class="progress-data">
                                     <div class="text-center"
                                         style="background-color: #f5d020;
-                                                                                                background-image: linear-gradient(315deg, #f5d020 0%, #f53803 74%);">
+                                                                                                    background-image: linear-gradient(315deg, #f5d020 0%, #f53803 74%);">
                                         <h1> <i class="micon icon-copy fa fa-money" aria-hidden="true"></i> </h1>
                                     </div>
                                 </div>
                                 <div class="widget-data">
                                     <div class="h4 mb-0">SALDO AKHIR</div>
-                                    <div class="weight-600 font-14">Rp. @if (isset($laporan1))
+                                    <div class="weight-600 font-14">Rp. @if (isset($laporan1) || isset($laporan))
 
                                             {{ number_format($laporan->saldo_awal - $laporan1->kas_keluar) }}
                                         @endif
@@ -119,7 +119,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> --}}
                 </div>
             @endif
             <div class="card-box mb-30">

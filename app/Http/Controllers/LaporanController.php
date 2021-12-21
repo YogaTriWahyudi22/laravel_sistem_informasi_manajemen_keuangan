@@ -4,39 +4,117 @@ namespace App\Http\Controllers;
 
 use App\Models\Laporan;
 use Illuminate\Http\Request;
+use App\Models\LaporanPendapatan;
+use App\Models\LaporanPengeluaran;
 use Illuminate\Support\Facades\DB;
 
 class LaporanController extends Controller
 {
     public function index()
     {
-        $tgl_kemarin = date('Y-m-d', strtotime('-1 day', strtotime(date('Y-m-d'))));
-        $laporan = DB::table('laporan')
-            ->where('tanggal', $tgl_kemarin)
-            ->first();
-        $index = Laporan::all();
-        return view('halaman_bendahara.laporan.laporan', compact('index', 'laporan'));
+        return view('halaman_bendahara.laporan.laporan');
     }
 
-    public function detail($id)
+    public function laporan_keungan_bulanan()
     {
-        $laporan = Laporan::first();
+        $laporan = Laporan::all();
+        $jumlah = DB::table('laporan')
+            ->select(
+                DB::raw('SUM(jumlah_pendapatan) as pendapatan'),
+                DB::raw('SUM(jumlah_pengeluaran) as pengeluaran')
+            )->first();
+        return view('halaman_bendahara.laporan.laporan_keungan_bulanan', compact('laporan', 'jumlah'));
+    }
 
-        $pendaftaran = Laporan::leftjoin('pendaftaran', 'laporan.tanggal', '=', 'pendaftaran.tanggal_lahir')->where('id_laporan', $id)->orwhere('pendaftaran.tanggal_lahir', $laporan->tanggal)->get();
+    public function cari_bulan(Request $request)
+    {
+        $periode = $request->periode;
+        $cari = DB::table('laporan');
+        $cari_bulan = DB::table('laporan')
+            ->select(DB::raw('SUM(jumlah_pendapatan) as pendapatan'), DB::raw('SUM(jumlah_pengeluaran) as pengeluaran'));
 
-        $uang_spp = Laporan::leftjoin('uang_spp', 'laporan.tanggal', '=', 'uang_spp.tanggal')->leftjoin('siswa', 'uang_spp.id_siswa', '=', 'siswa.id_siswa')->where('id_laporan', $id)->orwhere('uang_spp.tanggal', $laporan->tanggal)->get();
+        if ($request->periode) {
+            $hasil = $cari->whereMonth('tanggal_pendapatan', [$request->periode])->orwhereMonth('tanggal_pengeluaran', [$request->periode]);
+            $hasil2 = $cari_bulan->whereMonth('tanggal_pendapatan', [$request->periode])->orwhereMonth('tanggal_pengeluaran', [$request->periode]);
+        } else {
+            $hasil = $cari;
+            $hasil = $cari_bulan;
+        }
 
-        $uang_pkl = Laporan::leftjoin('uang_pkl', 'laporan.tanggal', '=', 'uang_pkl.tanggal')->leftjoin('siswa', 'uang_pkl.id_siswa', '=', 'siswa.id_siswa')->where('id_laporan', $id)->orwhere('uang_pkl.tanggal', $laporan->tanggal)->get();
+        $laporan = $hasil->get();
+        $jumlah = $hasil2->first();
+        return view('halaman_bendahara.laporan.laporan_keungan_bulanan', compact('laporan', 'jumlah', 'periode'));
+    }
 
-        $uang_seragam = Laporan::leftjoin('uang_seragam', 'laporan.tanggal', '=', 'uang_seragam.tanggal')->leftjoin('siswa', 'uang_seragam.id_siswa', '=', 'siswa.id_siswa')->where('id_laporan', $id)->orwhere('uang_seragam.tanggal', $laporan->tanggal)->get();
+    public function print($periode)
+    {
+        $laporan = DB::table('laporan')->whereMonth('tanggal_pendapatan', [$periode])->orwhereMonth('tanggal_pengeluaran', [$periode])->get();
+        $jumlah = DB::table('laporan')
+            ->select(DB::raw('SUM(jumlah_pendapatan) as pendapatan'), DB::raw('SUM(jumlah_pengeluaran) as pengeluaran'))
+            ->whereMonth('tanggal_pendapatan', [$periode])->orwhereMonth('tanggal_pengeluaran', [$periode])->first();
+        return view('halaman_bendahara.laporan.print', compact('laporan', 'jumlah'));
+    }
 
-        $uang_ujian = Laporan::leftjoin('uang_ujian', 'laporan.tanggal', '=', 'uang_ujian.tanggal')->leftjoin('siswa', 'uang_ujian.id_siswa', '=', 'siswa.id_siswa')->where('id_laporan', $id)->orwhere('uang_ujian.tanggal', $laporan->tanggal)->get();
+    public function print1()
+    {
+        $laporan = Laporan::all();
+        $jumlah = DB::table('laporan')
+            ->select(
+                DB::raw('SUM(jumlah_pendapatan) as pendapatan'),
+                DB::raw('SUM(jumlah_pengeluaran) as pengeluaran')
+            )->first();
+        return view('halaman_bendahara.laporan.print', compact('laporan', 'jumlah'));
+    }
 
-        $biaya_lain = Laporan::leftjoin('biaya_lain', 'laporan.tanggal', '=', 'biaya_lain.tanggal')->leftjoin('users', 'biaya_lain.id_user', '=', 'users.id')->where('id_laporan', $id)->orwhere('biaya_lain.tanggal', $laporan->tanggal)->get();
+    public function laporan_keungan_tahunan()
+    {
+        $tahunan = DB::table('laporan')
+            ->select(
+                DB::raw('YEAR(tanggal_pendapatan) AS pendapatan_tahunan'),
+                DB::raw('YEAR(tanggal_pengeluaran) AS pengeluaran_tahunan'),
+                DB::raw('MONTH(tanggal_pendapatan) AS pendapatan_bulan'),
+                DB::raw('MONTH(tanggal_pengeluaran) AS pengeluaran_bulan'),
+                DB::raw('SUM(jumlah_pendapatan) AS TotalPendapatan'),
+                DB::raw('SUM(jumlah_pengeluaran) AS TotalPengeluaran')
+            )
+            ->get();
+        return view('halaman_bendahara.laporan.laporan_keuangan_tahunan', compact('tahunan'));
+    }
 
-        $gaji = Laporan::leftjoin('gaji', 'laporan.tanggal', '=', 'gaji.tanggal')->leftjoin('guru', 'gaji.id_guru', '=', 'guru.id_guru')->where('id_laporan', $id)->orwhere('gaji.tanggal', $laporan->tanggal)->get();
+    public function cari_tahunan(Request $request)
+    {
+        $periode_tahunan = $request->periode_tahunan;
 
+        $cari_tahunan = DB::table('laporan')
+            ->select(
+                DB::raw('YEAR(tanggal_pendapatan) AS pendapatan_tahunan'),
+                DB::raw('YEAR(tanggal_pengeluaran) AS pengeluaran_tahunan'),
+                DB::raw('MONTH(tanggal_pendapatan) AS pendapatan_bulan'),
+                DB::raw('MONTH(tanggal_pengeluaran) AS pengeluaran_bulan'),
+                DB::raw('SUM(jumlah_pendapatan) AS TotalPendapatan'),
+                DB::raw('SUM(jumlah_pengeluaran) AS TotalPengeluaran')
+            );
+        if ($request->periode_tahunan) {
+            $result = $cari_tahunan->whereYear('tanggal_pendapatan', [$request->periode_tahunan])->orwhereYear('tanggal_pengeluaran', [$request->periode_tahunan]);
+        } else {
+            $result = $cari_tahunan;
+        }
+        $tahunan = $result->get();
+        return view('halaman_bendahara.laporan.laporan_keuangan_tahunan', compact('tahunan', 'periode_tahunan'));
+    }
 
-        return view('halaman_bendahara.laporan.detail', compact('pendaftaran', 'uang_spp', 'uang_pkl', 'uang_seragam', 'uang_ujian', 'biaya_lain', 'gaji'));
+    public function print_tahun($periode_tahunan)
+    {
+        $tahunan = DB::table('laporan')
+            ->select(
+                DB::raw('YEAR(tanggal_pendapatan) AS pendapatan_tahunan'),
+                DB::raw('YEAR(tanggal_pengeluaran) AS pengeluaran_tahunan'),
+                DB::raw('MONTH(tanggal_pendapatan) AS pendapatan_bulan'),
+                DB::raw('MONTH(tanggal_pengeluaran) AS pengeluaran_bulan'),
+                DB::raw('SUM(jumlah_pendapatan) AS TotalPendapatan'),
+                DB::raw('SUM(jumlah_pengeluaran) AS TotalPengeluaran')
+            )->whereYear('tanggal_pendapatan', [$periode_tahunan])->orwhereYear('tanggal_pengeluaran', [$periode_tahunan])->get();
+        // dd($tahunan);
+        return view('halaman_bendahara.laporan.print_tahunan', compact('tahunan'));
     }
 }

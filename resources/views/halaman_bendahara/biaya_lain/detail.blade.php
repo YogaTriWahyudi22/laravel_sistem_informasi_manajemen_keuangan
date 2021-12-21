@@ -31,7 +31,6 @@
                                     <tr>
                                         <td class="table-plus">{{ $loop->iteration }}</td>
                                         <td>{{ date('d/F/Y', strtotime($i->tanggal)) }}/ {{ $i->waktu }}</td>
-                                        <td>{{ $i->periode }}</td>
                                         <td>Rp.{{ number_format($i->nominal) }}</td>
                                     </tr>
                                 @endforeach

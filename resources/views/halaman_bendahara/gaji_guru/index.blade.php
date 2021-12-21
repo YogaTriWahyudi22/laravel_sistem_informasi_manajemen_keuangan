@@ -17,7 +17,7 @@
                 </div>
                 <div class="pd-20 bg-white border-radius-4 box-shadow mb-30">
                     <div class="pd-20">
-                        <a href="{{ route('pembayaran_gaji_tambah_get') }}" class="btn btn-success" class="btn btn-primary"
+                        <a href="{{ route('pembayaran_gaji_tambah_get') }}" class="btn btn-primary" class="btn btn-primary"
                             id="pilih"><span class="text-capitalize">Pembayaran Gaji</span></a>
                     </div>
                     <div class="pd-20 bg-white border-radius-4 box-shadow mb-30">

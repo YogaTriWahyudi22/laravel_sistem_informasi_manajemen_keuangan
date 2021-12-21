@@ -6,6 +6,7 @@ use App\Models\Draf;
 use App\Models\Kelas;
 use App\Models\Siswa;
 use App\Models\Laporan;
+use App\Models\LaporanPendapatan;
 use App\Models\Pembayaran;
 use App\Models\Pendaftaran;
 use Illuminate\Http\Request;
@@ -119,21 +120,40 @@ class PendaftaranController extends Controller
         $bayar = Draf::where('id_draf', $id)->first();
         $bayar->bayar = $request->bayar;
         $bayar->save();
-        $laporan = DB::table('laporan')->where('tanggal', '=', $tanggal)->first();
-        if ($laporan == Null || $laporan->tanggal == Null) {
 
-            Laporan::create([
-                'saldo_awal' => $request->bayar,
-                'kas_masuk' => $request->bayar,
-                'tanggal' => $tanggal,
-            ]);
-        } elseif ($laporan != Null && $tanggal == $laporan->tanggal) {
-            Laporan::where('tanggal', $tanggal)->update([
-                'saldo_awal' => $request->bayar + $bayar->bayar,
-                'kas_masuk' => $request->bayar + $bayar->bayar,
-                'tanggal' => $tanggal,
-            ]);
-        }
+        // INSERT DATA KE LAPORAN
+        Laporan::create([
+            'tanggal_pendapatan' => $tanggal,
+            'tanggal_pengeluaran' => $tanggal,
+            'jumlah_pendapatan' => $request->bayar,
+            'sumber' => 'uang pendaftaran',
+            'status' => 'pendapatan',
+        ]);
+        // $laporan = DB::table('laporan_pendapatan')->where('tanggal', '=', $tanggal)->first();
+
+        // // jika data pada laporan kosong atau tanggal nya kosong
+        // if ($laporan == Null || $laporan->tanggal == Null) {
+
+        //     LaporanPendapatan::create([
+        //         'tanggal' => $tanggal,
+        //         'jumlah' => $request->bayar,
+        //         'sumber' => 'uang pendaftaran',
+        //     ]);
+        // }
+        // // jika data laporan nya ada dan tanggal sama dengan tanggal dari inputanan
+        // elseif ($laporan != Null && $tanggal == $laporan->tanggal) {
+        //     LaporanPendapatan::where('tanggal', $tanggal)->update([
+        //         'jumlah' => $laporan->jumlah + $request->bayar,
+        //     ]);
+        // }
+        // // jika tidak ada logika diatas
+        // else {
+        //     LaporanPendapatan::create([
+        //         'tanggal' => $tanggal,
+        //         'jumlah' => $request->bayar,
+        //         'sumber' => 'uang pendaftaran',
+        //     ]);
+        // }
         Alert::success('Data Berhasil', 'Data Berhasil Diupdate');
         return redirect()->route('pendaftaran');
     }
@@ -160,7 +180,7 @@ class PendaftaranController extends Controller
             'nominal' => $request->bayar,
             'nama_siswa' => $request->nama_siswa,
             'waktu' => $waktu,
-            'tanggal_lahir' => $tanggal,
+            'tanggal' => $tanggal,
         ]);
         Draf::where('id_draf', $id)->delete();
         Alert::success('Data Berhasil', 'Siswa Baru Berhasil ditambahkan');

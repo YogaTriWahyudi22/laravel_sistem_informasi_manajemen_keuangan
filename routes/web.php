@@ -10,6 +10,7 @@ use App\Http\Controllers\JurusanController;
 use App\Http\Controllers\KelasController;
 use App\Http\Controllers\KelolaAkunController;
 use App\Http\Controllers\LaporanController;
+use App\Http\Controllers\LaporanGuruMahasiswa;
 use App\Http\Controllers\PembayaranController;
 use App\Http\Controllers\PendaftaranController;
 use App\Http\Controllers\PKLController;
@@ -164,6 +165,24 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::prefix('laporan')->group(function () {
         Route::get('index', [LaporanController::class, 'index'])->name('laporan');
-        Route::get('detail/{id}', [LaporanController::class, 'detail'])->name('laporan_detail');
+        Route::get('laporan_keungan_bulanan', [LaporanController::class, 'laporan_keungan_bulanan'])->name('laporan_keungan_bulanan');
+        Route::POST('cari_bulan', [LaporanController::class, 'cari_bulan'])->name('cari_bulan');
+        Route::get('print/{periode}', [LaporanController::class, 'print'])->name('print');
+        Route::get('print1', [LaporanController::class, 'print1'])->name('print1');
+        // Route::get('detail/{id}', [LaporanController::class, 'detail'])->name('laporan_detail');
     });
+
+    Route::prefix('tahunan')->group(function () {
+        Route::get('laporan_keungan_tahunan', [LaporanController::class, 'laporan_keungan_tahunan'])->name('laporan_keungan_tahunan');
+        Route::POST('cari_tahunan', [LaporanController::class, 'cari_tahunan'])->name('cari_tahunan');
+        Route::get('print/{periode_tahunan}', [LaporanController::class, 'print_tahun'])->name('print_tahun');
+        Route::get('print1', [LaporanController::class, 'print_tahun1'])->name('print_tahun1');
+    });
+
+    // Route::prefix('mahasiswa')->group(function () {
+    //     Route::get('laporan_keuangan_mahasiswa', [LaporanGuruMahasiswa::class, 'laporan_keuangan_mahasiswa'])->name('laporan_keuangan_mahasiswa');
+    //     Route::POST('cari_tahunan', [LaporanGuruMahasiswa::class, 'cari_tahunan'])->name('cari_tahunan');
+    //     Route::get('print/{periode_tahunan}', [LaporanGuruMahasiswa::class, 'print_tahun'])->name('print_tahun');
+    //     Route::get('print1', [LaporanGuruMahasiswa::class, 'print_tahun1'])->name('print_tahun1');
+    // });
 });

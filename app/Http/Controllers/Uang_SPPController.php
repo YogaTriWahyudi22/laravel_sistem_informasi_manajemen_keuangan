@@ -48,20 +48,30 @@ class Uang_SPPController extends Controller
         $tambah->tanggal = $tanggal;
         $tambah->waktu = $waktu;
         $tambah->save();
-        $laporan = DB::table('laporan')->where('tanggal', '=', $tanggal)->first();
-        if ($laporan == Null || $laporan->tanggal == Null) {
-            Laporan::create([
-                'saldo_awal' => $request->nominal,
-                'kas_masuk' => $request->nominal,
-                'tanggal' => $tanggal,
-            ]);
-        } elseif ($tanggal == $laporan->tanggal) {
-            Laporan::where('tanggal', $tanggal)->update([
-                'saldo_awal' => $request->nominal + $laporan->saldo_awal,
-                'kas_masuk' => $request->nominal + $laporan->kas_masuk,
-                'tanggal' => $tanggal,
-            ]);
-        }
+
+        // INSERT DATA KE LAPORAN
+        Laporan::create([
+            'tanggal_pendapatan' => $tanggal,
+            'tanggal_pengeluaran' => $tanggal,
+            'jumlah_pendapatan' => $request->nominal,
+            'sumber' => 'uang SPP',
+            'status' => 'pendapatan',
+        ]);
+
+        // $laporan = DB::table('laporan')->where('tanggal', '=', $tanggal)->first();
+        // if ($laporan == Null || $laporan->tanggal == Null) {
+        //     Laporan::create([
+        //         'saldo_awal' => $request->nominal,
+        //         'kas_masuk' => $request->nominal,
+        //         'tanggal' => $tanggal,
+        //     ]);
+        // } elseif ($tanggal == $laporan->tanggal) {
+        //     Laporan::where('tanggal', $tanggal)->update([
+        //         'saldo_awal' => $request->nominal + $laporan->saldo_awal,
+        //         'kas_masuk' => $request->nominal + $laporan->kas_masuk,
+        //         'tanggal' => $tanggal,
+        //     ]);
+        // }
         Alert::success('Data Berhasil', 'Data Berhasil Ditambah');
         return redirect()->route('uang_spp');
     }

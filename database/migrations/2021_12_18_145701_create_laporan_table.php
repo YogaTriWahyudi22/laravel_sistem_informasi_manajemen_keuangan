@@ -15,10 +15,15 @@ class CreateLaporanTable extends Migration
     {
         Schema::create('laporan', function (Blueprint $table) {
             $table->bigIncrements('id_laporan');
-            $table->bigInteger('saldo_awal')->nullable();
-            $table->bigInteger('kas_masuk')->nullable();
-            $table->bigInteger('kas_keluar')->nullable();
-            $table->date('tanggal');
+            $table->date('tanggal_pendapatan')->nullable();
+            $table->bigInteger('jumlah_pendapatan')->nullable();
+            $table->string('sumber', '20')->nullable();
+            $table->date('tanggal_pengeluaran')->nullable();
+            $table->text('keterangan')->nullable();
+            $table->string('satuan', '10')->nullable();
+            $table->integer('banyak')->nullable();
+            $table->bigInteger('jumlah_pengeluaran')->nullable();
+            $table->string('status', '20')->nullable();
         });
     }
 

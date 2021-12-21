@@ -1,58 +1,132 @@
 @extends('template.admin')
 
 @section('content')
+
     <div class="main-container">
-        <div class="pd-ltr-20 xs-pd-20-10">
-            <div class="min-height-200px">
-                <div class="page-header">
-                    <div class="row">
-                        <div class="col-md-6 col-sm-12">
-                            <div class="title">
-                                <h4>Data Laporan Kas </h4>
+        <div class="xs-pd-20-10 pd-ltr-20">
+            <div class="page-header">
+                <div class="row">
+                    <div class="col-md-6 col-sm-12">
+                        <div class="title">
+                            <h4>Dashboard</h4>
+                        </div>
+                        <nav aria-label="breadcrumb" role="navigation">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                                <li class="breadcrumb-item active" aria-current="page">Dashboard</li>
+                            </ol>
+                        </nav>
+                    </div>
+                    <div class="col-md-6 col-sm-12 text-right">
+                        <div class="dropdown">
+                            <a class="btn btn-primary dropdown-toggle" href="#" role="button" data-toggle="dropdown">
+                                January 2018
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-right">
+                                <a class="dropdown-item" href="#">Export List</a>
+                                <a class="dropdown-item" href="#">Policies</a>
+                                <a class="dropdown-item" href="#">View Assets</a>
                             </div>
-                            <nav aria-label="breadcrumb" role="navigation">
-                            </nav>
                         </div>
                     </div>
                 </div>
-                <div class="pd-20 bg-white border-radius-4 box-shadow mb-30">
-                    <div class="pb-20">
-                        <table class="data-table table stripe hover nowrap">
-                            <thead>
-                                <tr>
-                                    <th class="table-plus datatable-nosort">Nomor</th>
-                                    <th>Tanggal</th>
-                                    <th>Saldo Awal</th>
-                                    <th>Kas Masuk</th>
-                                    <th>Kas Keluar</th>
-                                    <th>Saldo Akhir</th>
-                                    <th class="datatable-nosort">Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($index as $i)
-                                    {{-- @dd($i) --}}
-                                    <tr class="text center">
-                                        <td class="table-plus">{{ $loop->iteration }}</td>
-                                        <td>{{ $i->tanggal }}</td>
-                                        <td>{{ number_format($laporan->saldo_awal) }}</td>
-                                        <td>{{ number_format($i->kas_masuk) }}</td>
-                                        <td>{{ number_format($i->kas_keluar) }}</td>
-                                        <td>{{ number_format($laporan->saldo_awal - $i->kas_keluar) }}</td>
-                                        <td>
-                                            <div class="btn-group" role="group" aria-label="Basic example">
-
-                                                <a href="{{ route('laporan_detail', $i->id_laporan) }}"
-                                                    class="btn btn-info mx-2">
-                                                    Detail</a>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
+            </div>
+            <div class="row clearfix progress-box">
+                <div class="col-lg-3 col-md-6 col-sm-12 mb-30">
+                    <div class="card-box pd-30 height-100-p">
+                        <div class="progress-box text-center">
+                            <a href="{{ route('laporan_keungan_bulanan') }}">
+                                <img src="{{ asset('gambar/icon1.gif') }}" alt="">
+                                <h5 class="text-blue padding-top-10 h5">LAPORAN KEUANGAN BULANAN SMK CENDANA PADANG PANJANG
+                                </h5>
+                            </a>
+                        </div>
                     </div>
                 </div>
+
+                <div class="col-lg-3 col-md-6 col-sm-12 mb-30">
+                    <div class="card-box pd-30 height-100-p">
+                        <div class="progress-box text-center">
+                            <a href="{{ route('laporan_keungan_tahunan') }}">
+                                <img src="{{ asset('gambar/icon1.gif') }}" alt="">
+                                <h5 class="text-blue padding-top-10 h5">LAPORAN KEUANGAN TAHUNAN SMK CENDANA PADANG PANJANG
+                                </h5>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-3 col-md-6 col-sm-12 mb-30">
+                    <div class="card-box pd-30 height-100-p">
+                        <div class="progress-box text-center">
+                            <a href="">
+                                <img src="{{ asset('gambar/icon2.gif') }}" alt="">
+                                <h5 class="text-blue padding-top-10 h5">LAPORAN KEUANGAN SISWA SMK CENDANA PADANG PANJANG
+                                </h5>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-3 col-md-6 col-sm-12 mb-30">
+                    <div class="card-box pd-30 height-100-p">
+                        <div class="progress-box text-center">
+                            <a href="">
+                                <img src="{{ asset('gambar/icon3.gif') }}" alt="">
+                                <h5 class="text-blue padding-top-10 h5">LAPORAN GAJI GURU BULANAN
+                                </h5>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-3 col-md-6 col-sm-12 mb-30">
+                    <div class="card-box pd-30 height-100-p">
+                        <div class="progress-box text-center">
+                            <a href="">
+                                <img src="{{ asset('gambar/icon3.gif') }}" alt="">
+                                <h5 class="text-blue padding-top-10 h5">LAPORAN GAJI GURU TAHUNAN
+                                </h5>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                {{-- <div class="col-lg-3 col-md-6 col-sm-12 mb-30">
+                    <div class="card-box pd-30 height-100-p">
+                        <div class="progress-box text-center">
+                            <input type="text" class="knob dial2" value="70" data-width="120" data-height="120"
+                                data-linecap="round" data-thickness="0.12" data-bgColor="#fff" data-fgColor="#00e091"
+                                data-angleOffset="180" readonly
+                            <h5 class="text-light-green padding-top-10 h5">Business Captured</h5>
+                            <span class="d-block">75% Average <i
+                                    class="fa text-light-green fa-line-chart"></i></span>
+                        </div>
+                    </div>
+                </div> --}}
+                {{-- <div class="col-lg-3 col-md-6 col-sm-12 mb-30">
+                    <div class="card-box pd-30 height-100-p">
+                        <div class="progress-box text-center">
+                            <input type="text" class="knob dial3" value="90" data-width="120" data-height="120"
+                                data-linecap="round" data-thickness="0.12" data-bgColor="#fff" data-fgColor="#f56767"
+                                data-angleOffset="180" readonly>
+                            <h5 class="text-light-orange padding-top-10 h5">Projects Speed</h5>
+                            <span class="d-block">90% Average <i
+                                    class="fa text-light-orange fa-line-chart"></i></span>
+                        </div>
+                    </div>
+                </div> --}}
+                {{-- <div class="col-lg-3 col-md-6 col-sm-12 mb-30">
+                    <div class="card-box pd-30 height-100-p">
+                        <div class="progress-box text-center">
+                            <input type="text" class="knob dial4" value="65" data-width="120" data-height="120"
+                                data-linecap="round" data-thickness="0.12" data-bgColor="#fff" data-fgColor="#a683eb"
+                                data-angleOffset="180" readonly>
+                            <h5 class="text-light-purple padding-top-10 h5">Panding Orders</h5>
+                            <span class="d-block">65% Average <i
+                                    class="fa text-light-purple fa-line-chart"></i></span>
+                        </div>
+                    </div>
+                </div> --}}
             </div>
         </div>
     </div>

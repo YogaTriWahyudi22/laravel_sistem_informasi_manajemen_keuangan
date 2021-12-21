@@ -18,7 +18,7 @@ class CreatePendaftaranTable extends Migration
             $table->bigInteger('nominal');
             $table->string('nama_siswa', '100');
             $table->time('waktu');
-            $table->date('tanggal_lahir');
+            $table->date('tanggal');
         });
     }
 
