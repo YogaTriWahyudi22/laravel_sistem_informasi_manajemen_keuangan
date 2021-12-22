@@ -8,7 +8,7 @@
                     <div class="row">
                         <div class="col-md-6 col-sm-12">
                             <div class="title">
-                                <h4>Detail Laporan Kas Tahunan
+                                <h4>Detail Laporan Keuangan Siswa
                                 </h4>
                             </div>
                             <nav aria-label="breadcrumb" role="navigation">
@@ -22,28 +22,28 @@
                         date_default_timezone_set('Asia/Jakarta');
                         $tgl = date('Y');
                     @endphp
-                    <form action="{{ route('cari_tahunan') }}" method="POST">
+                    <form action="{{ route('cari_siswa') }}" method="POST">
                         @csrf
                         <div class="row float-center">
 
-                            <select class="form-control" name="periode_tahunan" aria-label="Default select example">
+                            <select class="form-control" name="nama_siswa" aria-label="Default select example">
                                 @php
-                                    $bulan = ['2021', '2022', '2023', '2024', '2025', '2026'];
+                                    $nama_siswa = DB::table('siswa')->get();
                                 @endphp
-                                <option value="{{ $tgl }}">Pilih Tahun</option>
-                                @foreach ($bulan as $b => $value_tahunan)
-                                    <option value="{{ $value_tahunan }}">{{ $value_tahunan }} </option>
+                                @foreach ($nama_siswa as $nama)
+                                    <option value="{{ $nama->nama_siswa }}">{{ $nama->nama_siswa }} </option>
                                 @endforeach
 
                             </select>
                             <button type="submit" class="btn btn-primary my-2">Cari</button>
-                            @if (isset($periode_tahunan))
-                                <a href="{{ route('print_tahun', $periode_tahunan) }}" class="btn btn-success my-2 mx-2"
+                            @if (isset($siswa))
+                                <a href="{{ route('print_siswa', $siswa) }}" class="btn btn-success my-2 mx-2"
                                     target="_blank">Print</a>
                             @else
-                                <a href="{{ route('print_tahun1') }}" class="btn btn-success my-2 mx-2"
+                                <a href="{{ route('print_siswa1') }}" class="btn btn-success my-2 mx-2"
                                     target="_blank">Print</a>
                             @endif
+                            <a href="{{ route('laporan_keuangan_mahasiswa') }}" class="btn btn-danger my-2">Reset</a>
                         </div>
                     </form>
                     <div class="pb-20">
@@ -51,46 +51,50 @@
                             <thead>
                                 <tr>
                                     <th>Bulan</th>
-                                    <th>Masuk</th>
-                                    <th>Keluar</th>
-                                    <th>Saldo</th>
-                                    <th></th>
+                                    <th>Uang SPP</th>
+                                    <th>Uang SERAGAM</th>
+                                    <th>UANG DSP</th>
+                                    <th>UANG UJIAN</th>
+                                    <th>JUMLAH</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($tahunan as $t)
+                                @foreach ($mahasiswa as $t)
                                     <tr class="text center">
                                         <td>
-                                            @if ($t->pengeluaran_bulan == 12)
+                                            @if ($t->bulan_semua == 12)
                                                 {{ 'Desember' }}
-                                            @elseif($t->pengeluaran_bulan == 11)
+                                            @elseif($t->bulan_semua == 11)
                                                 {{ 'November' }}
-                                            @elseif($t->pengeluaran_bulan == 10)
+                                            @elseif($t->bulan_semua == 10)
                                                 {{ 'October' }}
-                                            @elseif($t->pengeluaran_bulan == 9)
+                                            @elseif($t->bulan_semua == 9)
                                                 {{ 'September' }}
-                                            @elseif($t->pengeluaran_bulan == 8)
+                                            @elseif($t->bulan_semua == 8)
                                                 {{ 'Agustus' }}
-                                            @elseif($t->pengeluaran_bulan == 7)
+                                            @elseif($t->bulan_semua == 7)
                                                 {{ 'Juli' }}
-                                            @elseif($t->pengeluaran_bulan == 6)
+                                            @elseif($t->bulan_semua == 6)
                                                 {{ 'Juni' }}
-                                            @elseif($t->pengeluaran_bulan == 5)
+                                            @elseif($t->bulan_semua == 5)
                                                 {{ 'May' }}
-                                            @elseif($t->pengeluaran_bulan == 4)
+                                            @elseif($t->bulan_semua == 4)
                                                 {{ 'April' }}
-                                            @elseif($t->pengeluaran_bulan == 3)
+                                            @elseif($t->bulan_semua == 3)
                                                 {{ 'Maret' }}
-                                            @elseif($t->pengeluaran_bulan == 2)
+                                            @elseif($t->bulan_semua == 2)
                                                 {{ 'February' }}
-                                            @elseif($t->pengeluaran_bulan == 1)
+                                            @elseif($t->bulan_semua == 1)
                                                 {{ 'January' }}
                                             @endif
 
                                         </td>
-                                        <td>{{ number_format($t->TotalPendapatan) }}</td>
-                                        <td>{{ number_format($t->TotalPengeluaran) }}</td>
-                                        <td>{{ number_format($t->TotalPendapatan - $t->TotalPengeluaran) }}</td>
+                                        <td>{{ number_format($t->TotalSPP) }}</td>
+                                        <td>{{ number_format($t->TotalSeragam) }}</td>
+                                        <td>{{ number_format($t->TotalDSP) }}</td>
+                                        <td>{{ number_format($t->TotalUjian) }}</td>
+                                        <td>{{ number_format($t->TotalSPP + $t->TotalSeragam + $t->TotalDSP + $t->TotalUjian) }}
+                                        </td>
 
                                     </tr>
                                 @endforeach

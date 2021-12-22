@@ -179,10 +179,25 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('print1', [LaporanController::class, 'print_tahun1'])->name('print_tahun1');
     });
 
-    // Route::prefix('mahasiswa')->group(function () {
-    //     Route::get('laporan_keuangan_mahasiswa', [LaporanGuruMahasiswa::class, 'laporan_keuangan_mahasiswa'])->name('laporan_keuangan_mahasiswa');
-    //     Route::POST('cari_tahunan', [LaporanGuruMahasiswa::class, 'cari_tahunan'])->name('cari_tahunan');
-    //     Route::get('print/{periode_tahunan}', [LaporanGuruMahasiswa::class, 'print_tahun'])->name('print_tahun');
-    //     Route::get('print1', [LaporanGuruMahasiswa::class, 'print_tahun1'])->name('print_tahun1');
-    // });
+    Route::prefix('mahasiswa')->group(function () {
+        Route::get('laporan_keuangan_mahasiswa', [LaporanGuruMahasiswa::class, 'laporan_keuangan_mahasiswa'])->name('laporan_keuangan_mahasiswa');
+        Route::POST('cari_siswa', [LaporanGuruMahasiswa::class, 'cari_siswa'])->name('cari_siswa');
+        Route::get('print_siswa/{siswa}', [LaporanGuruMahasiswa::class, 'print_siswa'])->name('print_siswa');
+        Route::get('print_siswa', [LaporanGuruMahasiswa::class, 'print_siswa1'])->name('print_siswa1');
+    });
+    Route::prefix('gaji_guru')->group(function () {
+        Route::get('laporan_gaji_bulan', [LaporanGuruMahasiswa::class, 'laporan_gaji_bulan'])->name('laporan_gaji_bulan');
+        Route::POST('gaji_bulanan', [LaporanGuruMahasiswa::class, 'gaji_bulanan'])->name('gaji_bulanan');
+        Route::get('print_gaji_bulan/{cari_guru_bulanan}', [LaporanGuruMahasiswa::class, 'print_gaji_bulan'])->name('print_gaji_bulan');
+        Route::get('print_gaji_bulan1', [LaporanGuruMahasiswa::class, 'print_gaji_bulan1'])->name('print_gaji_bulan1');
+    });
+
+    Route::prefix('gaji_tahunan')->group(function () {
+        Route::get('laporan_gaji_tahunan', [LaporanGuruMahasiswa::class, 'laporan_gaji_tahunan'])->name('laporan_gaji_tahunan');
+        Route::POST('gaji_tahunan', [LaporanGuruMahasiswa::class, 'gaji_tahunan'])->name('gaji_tahunan');
+        Route::get('print_gaji_tahun/{cari_guru_tahun}', [LaporanGuruMahasiswa::class, 'print_gaji_tahun'])->name('print_gaji_tahun');
+        Route::get('print_gaji_tahun', [LaporanGuruMahasiswa::class, 'print_gaji_tahun1'])->name('print_gaji_tahun1');
+        // Route::get('print_gaji_bulan/{cari_guru_bulanan}', [LaporanGuruMahasiswa::class, 'print_gaji_bulan'])->name('print_gaji_bulan');
+        // Route::get('print_gaji_bulan1', [LaporanGuruMahasiswa::class, 'print_gaji_bulan1'])->name('print_gaji_bulan1');
+    });
 });

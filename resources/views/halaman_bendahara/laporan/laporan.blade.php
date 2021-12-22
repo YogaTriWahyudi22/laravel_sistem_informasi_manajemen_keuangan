@@ -59,7 +59,7 @@
                 <div class="col-lg-3 col-md-6 col-sm-12 mb-30">
                     <div class="card-box pd-30 height-100-p">
                         <div class="progress-box text-center">
-                            <a href="">
+                            <a href="{{ route('laporan_keuangan_mahasiswa') }}">
                                 <img src="{{ asset('gambar/icon2.gif') }}" alt="">
                                 <h5 class="text-blue padding-top-10 h5">LAPORAN KEUANGAN SISWA SMK CENDANA PADANG PANJANG
                                 </h5>
@@ -71,7 +71,7 @@
                 <div class="col-lg-3 col-md-6 col-sm-12 mb-30">
                     <div class="card-box pd-30 height-100-p">
                         <div class="progress-box text-center">
-                            <a href="">
+                            <a href="{{ route('laporan_gaji_bulan') }}">
                                 <img src="{{ asset('gambar/icon3.gif') }}" alt="">
                                 <h5 class="text-blue padding-top-10 h5">LAPORAN GAJI GURU BULANAN
                                 </h5>
@@ -83,7 +83,7 @@
                 <div class="col-lg-3 col-md-6 col-sm-12 mb-30">
                     <div class="card-box pd-30 height-100-p">
                         <div class="progress-box text-center">
-                            <a href="">
+                            <a href="{{ route('laporan_gaji_tahunan') }}">
                                 <img src="{{ asset('gambar/icon3.gif') }}" alt="">
                                 <h5 class="text-blue padding-top-10 h5">LAPORAN GAJI GURU TAHUNAN
                                 </h5>

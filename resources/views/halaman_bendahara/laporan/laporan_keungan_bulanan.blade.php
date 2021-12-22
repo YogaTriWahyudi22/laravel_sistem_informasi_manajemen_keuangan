@@ -8,7 +8,7 @@
                     <div class="row">
                         <div class="col-md-6 col-sm-12">
                             <div class="title">
-                                <h4>Detail Laporan Kas
+                                <h4>Detail Laporan Kas Bulanan
                                 </h4>
                             </div>
                             <nav aria-label="breadcrumb" role="navigation">

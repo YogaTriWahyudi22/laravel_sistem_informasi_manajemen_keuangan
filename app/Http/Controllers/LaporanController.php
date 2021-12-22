@@ -52,7 +52,7 @@ class LaporanController extends Controller
         $jumlah = DB::table('laporan')
             ->select(DB::raw('SUM(jumlah_pendapatan) as pendapatan'), DB::raw('SUM(jumlah_pengeluaran) as pengeluaran'))
             ->whereMonth('tanggal_pendapatan', [$periode])->orwhereMonth('tanggal_pengeluaran', [$periode])->first();
-        return view('halaman_bendahara.laporan.print', compact('laporan', 'jumlah'));
+        return view('halaman_bendahara.print.print', compact('laporan', 'jumlah'));
     }
 
     public function print1()
@@ -63,7 +63,7 @@ class LaporanController extends Controller
                 DB::raw('SUM(jumlah_pendapatan) as pendapatan'),
                 DB::raw('SUM(jumlah_pengeluaran) as pengeluaran')
             )->first();
-        return view('halaman_bendahara.laporan.print', compact('laporan', 'jumlah'));
+        return view('halaman_bendahara.print.print', compact('laporan', 'jumlah'));
     }
 
     public function laporan_keungan_tahunan()
@@ -115,6 +115,21 @@ class LaporanController extends Controller
                 DB::raw('SUM(jumlah_pengeluaran) AS TotalPengeluaran')
             )->whereYear('tanggal_pendapatan', [$periode_tahunan])->orwhereYear('tanggal_pengeluaran', [$periode_tahunan])->get();
         // dd($tahunan);
-        return view('halaman_bendahara.laporan.print_tahunan', compact('tahunan'));
+        return view('halaman_bendahara.print.print_tahunan', compact('tahunan'));
+    }
+
+    public function print_tahun1()
+    {
+        $tahunan = DB::table('laporan')
+            ->select(
+                DB::raw('YEAR(tanggal_pendapatan) AS pendapatan_tahunan'),
+                DB::raw('YEAR(tanggal_pengeluaran) AS pengeluaran_tahunan'),
+                DB::raw('MONTH(tanggal_pendapatan) AS pendapatan_bulan'),
+                DB::raw('MONTH(tanggal_pengeluaran) AS pengeluaran_bulan'),
+                DB::raw('SUM(jumlah_pendapatan) AS TotalPendapatan'),
+                DB::raw('SUM(jumlah_pengeluaran) AS TotalPengeluaran')
+            )
+            ->get();
+        return view('halaman_bendahara.print.print_tahunan', compact('tahunan'));
     }
 }

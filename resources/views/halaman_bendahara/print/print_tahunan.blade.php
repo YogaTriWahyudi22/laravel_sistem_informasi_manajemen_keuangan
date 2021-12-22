@@ -96,7 +96,7 @@
                 {{ Auth::user()->name }}
             </div> --}}
         </div>
-        {{-- </div> --}}
+    </div>
 
 </body>
 <script>
