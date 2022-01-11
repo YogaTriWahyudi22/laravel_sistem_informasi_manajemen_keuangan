@@ -17,7 +17,7 @@
                             </ol>
                         </nav>
                     </div>
-                    <div class="col-md-6 col-sm-12 text-right">
+                    {{-- <div class="col-md-6 col-sm-12 text-right">
                         <div class="dropdown">
                             <a class="btn btn-primary dropdown-toggle" href="#" role="button" data-toggle="dropdown">
                                 January 2018
@@ -28,7 +28,7 @@
                                 <a class="dropdown-item" href="#">View Assets</a>
                             </div>
                         </div>
-                    </div>
+                    </div> --}}
                 </div>
             </div>
             <div class="row clearfix progress-box">
@@ -91,6 +91,19 @@
                         </div>
                     </div>
                 </div>
+
+                <div class="col-lg-3 col-md-6 col-sm-12 mb-30">
+                    <div class="card-box pd-30 height-100-p">
+                        <div class="progress-box text-center">
+                            <a href="{{ route('slip_ganji') }}">
+                                <img src="{{ asset('gambar/icon3.gif') }}" alt="">
+                                <h5 class="text-blue padding-top-10 h5">LAPORAN SLIP GAJI
+                                </h5>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
                 {{-- <div class="col-lg-3 col-md-6 col-sm-12 mb-30">
                     <div class="card-box pd-30 height-100-p">
                         <div class="progress-box text-center">

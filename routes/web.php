@@ -16,6 +16,7 @@ use App\Http\Controllers\PendaftaranController;
 use App\Http\Controllers\PKLController;
 use App\Http\Controllers\SeragamController;
 use App\Http\Controllers\SiswaController;
+use App\Http\Controllers\SlipGajiController;
 use App\Http\Controllers\Uang_SPPController;
 use App\Http\Controllers\UjianController;
 
@@ -197,6 +198,17 @@ Route::group(['middleware' => 'auth'], function () {
         Route::POST('gaji_tahunan', [LaporanGuruMahasiswa::class, 'gaji_tahunan'])->name('gaji_tahunan');
         Route::get('print_gaji_tahun/{cari_guru_tahun}', [LaporanGuruMahasiswa::class, 'print_gaji_tahun'])->name('print_gaji_tahun');
         Route::get('print_gaji_tahun', [LaporanGuruMahasiswa::class, 'print_gaji_tahun1'])->name('print_gaji_tahun1');
+        // Route::get('print_gaji_bulan/{cari_guru_bulanan}', [LaporanGuruMahasiswa::class, 'print_gaji_bulan'])->name('print_gaji_bulan');
+        // Route::get('print_gaji_bulan1', [LaporanGuruMahasiswa::class, 'print_gaji_bulan1'])->name('print_gaji_bulan1');
+    });
+
+    Route::prefix('slip_gaji')->group(function () {
+        Route::get('slip_ganji', [SlipGajiController::class, 'slip_ganji'])->name('slip_ganji');
+        Route::get('detail_slip_gaji/{id_guru}', [SlipGajiController::class, 'detail_slip_gaji'])->name('detail_slip_gaji');
+        Route::get('cetak_slide/{periode}', [SlipGajiController::class, 'cetak_slide'])->name('cetak_slide');
+        // Route::POST('gaji_tahunan', [SlipGajiController::class, 'gaji_tahunan'])->name('gaji_tahunan');
+        // Route::get('print_gaji_tahun/{cari_guru_tahun}', [SlipGajiController::class, 'print_gaji_tahun'])->name('print_gaji_tahun');
+        // Route::get('print_gaji_tahun', [SlipGajiController::class, 'print_gaji_tahun1'])->name('print_gaji_tahun1');
         // Route::get('print_gaji_bulan/{cari_guru_bulanan}', [LaporanGuruMahasiswa::class, 'print_gaji_bulan'])->name('print_gaji_bulan');
         // Route::get('print_gaji_bulan1', [LaporanGuruMahasiswa::class, 'print_gaji_bulan1'])->name('print_gaji_bulan1');
     });

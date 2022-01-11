@@ -57,6 +57,7 @@
                                     <th>NOMINAL</th>
                                     <th>TANGGAL</th>
                                     <th>WAKTU</th>
+                                    <th>Slip Gaji</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -68,8 +69,6 @@
                                         <td>{{ number_format($t->nominal) }}</td>
                                         <td>{{ $t->tanggal }}</td>
                                         <td>{{ $t->waktu }}</td>
-
-
                                     </tr>
                                 @endforeach
                             </tbody>
