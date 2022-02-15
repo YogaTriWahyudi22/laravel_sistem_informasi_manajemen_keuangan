@@ -6,6 +6,7 @@ use App\Models\Laporan;
 use Illuminate\Http\Request;
 use App\Models\LaporanPendapatan;
 use App\Models\LaporanPengeluaran;
+use App\Models\User;
 use Illuminate\Support\Facades\DB;
 
 class LaporanController extends Controller
@@ -17,13 +18,18 @@ class LaporanController extends Controller
 
     public function laporan_keungan_bulanan()
     {
-        $laporan = Laporan::all();
+        // $laporan = Laporan::all();
+        $user_kepsek = User::where('status', 'kepsek')->first();
+        $user_yayasan = User::where('status', 'ketua_yayasan')->first();
+        $laporan_pendapatan = Laporan::where('status', 'pendapatan')->get();
+        $laporan_pengeluaran = Laporan::where('status', 'pengeluaran')->get();
         $jumlah = DB::table('laporan')
             ->select(
                 DB::raw('SUM(jumlah_pendapatan) as pendapatan'),
                 DB::raw('SUM(jumlah_pengeluaran) as pengeluaran')
             )->first();
-        return view('halaman_bendahara.laporan.laporan_keungan_bulanan', compact('laporan', 'jumlah'));
+        // return view('halaman_bendahara.laporan.laporan_keungan_bulanan', compact('laporan', 'jumlah'));
+        return view('halaman_bendahara.laporan.laporan_keungan_bulanan', compact('laporan_pendapatan', 'laporan_pengeluaran', 'jumlah', 'user_kepsek', 'user_yayasan'));
     }
 
     public function cari_bulan(Request $request)
@@ -57,13 +63,17 @@ class LaporanController extends Controller
 
     public function print1()
     {
-        $laporan = Laporan::all();
+        // $laporan = Laporan::all();
+        $user_kepsek = User::where('status', 'kepsek')->first();
+        $user_yayasan = User::where('status', 'ketua_yayasan')->first();
+        $laporan_pendapatan = Laporan::where('status', 'pendapatan')->get();
+        $laporan_pengeluaran = Laporan::where('status', 'pengeluaran')->get();
         $jumlah = DB::table('laporan')
             ->select(
                 DB::raw('SUM(jumlah_pendapatan) as pendapatan'),
                 DB::raw('SUM(jumlah_pengeluaran) as pengeluaran')
             )->first();
-        return view('halaman_bendahara.print.print', compact('laporan', 'jumlah'));
+        return view('halaman_bendahara.print.print', compact('laporan_pendapatan', 'laporan_pengeluaran', 'jumlah', 'user_kepsek', 'user_yayasan'));
     }
 
     public function laporan_keungan_tahunan()

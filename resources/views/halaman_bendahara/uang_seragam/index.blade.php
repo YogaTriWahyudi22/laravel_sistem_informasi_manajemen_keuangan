@@ -29,6 +29,9 @@
                             <button style="submit" class="btn btn-primary mt-2">Cari</button>
                         </form>
                     </div>
+                    @foreach ($pilih_kelas as $kelas)
+                        <input type="hidden" value="{{ $kelas->nama_kelas }}" name="kelas">
+                    @endforeach
                     <div class="pd-20 bg-white border-radius-4 box-shadow mb-30">
                         <div class="pb-20">
                             <table class="data-table table stripe hover nowrap">
@@ -80,7 +83,6 @@
         </div>
     </div>
     @foreach ($siswa as $k)
-
         <!-- Modal -->
         <div class="modal fade" id="pembayaran{{ $k->id_siswa }}" tabindex="-1" aria-labelledby="exampleModalLabel"
             aria-hidden="true">

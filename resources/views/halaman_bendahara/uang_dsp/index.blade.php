@@ -17,7 +17,7 @@
                 </div>
                 <div class="pd-20 bg-white border-radius-4 box-shadow mb-30">
                     <div class="pd-20">
-                        {{-- <form action="{{ route('dsp_cari') }}" method="POST">
+                        <form action="{{ route('dsp_cari') }}" method="POST">
                             @csrf
                             <select class="form-control" name="cari" aria-label="Default select example">
                                 <option value="0">Pilih Kelas</option>
@@ -27,7 +27,7 @@
                                 @endforeach
                             </select>
                             <button style="submit" class="btn btn-primary mt-2">Cari</button>
-                        </form> --}}
+                        </form>
                     </div>
                     <div class="pd-20 bg-white border-radius-4 box-shadow mb-30">
                         <div class="pb-20">
@@ -57,7 +57,6 @@
 
                                                 <div class="btn-group" role="group" aria-label="Basic example">
                                                     @if ($i->status_uang != 'lunas')
-
                                                         <a href="" class="btn btn-success" class="btn btn-primary"
                                                             id="pilih" onchange="kategori()" data-toggle="modal"
                                                             data-target="#uangdsp{{ $i->id_siswa }}"><span
@@ -99,7 +98,6 @@
                             <select class="form-control" name="nominal" aria-label="Default select example" required>
                                 <option selected>Pilih Cicilan</option>
                                 @if ($k->nominal == null)
-
                                     <option value="{{ $pembayaran->nominal }}">Bayar Lunas</option>
                                     <option value="cicilan.250000">Cicilan 1 -- {{ number_format(250000) }}</option>
                                     <option value="cicilan.250000">Cicilan 2 -- {{ number_format(250000) }}</option>

@@ -1,0 +1,9 @@
+hak akses 
+
+1. admin
+   username : admin
+   password : admin
+
+2. bendahara
+   username : bendahara
+   password : bendahara

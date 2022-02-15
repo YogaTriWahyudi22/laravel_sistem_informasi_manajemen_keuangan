@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Kelas;
 use App\Models\Laporan;
 use App\Models\Uang_PKL;
 use App\Models\Pembayaran;
@@ -16,6 +17,7 @@ class PKLController extends Controller
         date_default_timezone_set("Asia/Jakarta");
         $tanggal = date('Y-m-d');
 
+        $pilih_kelas = Kelas::all();
         $pembayaran = Pembayaran::where('jenis_pembayaran', 'Uang PKL')->first();
         $siswa = Uang_PKL::rightjoin('siswa', 'uang_pkl.id_siswa', '=', 'siswa.id_siswa')->leftjoin('kelas', 'siswa.id_kelas', '=', 'kelas.id_kelas')->leftjoin('jurusan', 'siswa.id_jurusan', '=', 'jurusan.id_jurusan')
             ->select(
@@ -30,7 +32,7 @@ class PKLController extends Controller
                 'uang_pkl.nominal',
                 'siswa.id_siswa'
             )->get();
-        return view('halaman_bendahara.uang_pkl.index', compact('siswa', 'pembayaran'));
+        return view('halaman_bendahara.uang_pkl.index', compact('siswa', 'pembayaran', 'pilih_kelas'));
     }
 
     public function uang_pkl(Request $request)
@@ -181,5 +183,32 @@ class PKLController extends Controller
         $detail = Uang_PKL::leftjoin('siswa', 'uang_pkl.id_siswa', '=', 'siswa.id_siswa')->select('uang_pkl.*')->where('uang_pkl.id_uang_pkl', $id)->get();
         $nama = Uang_PKL::leftjoin('siswa', 'uang_pkl.id_siswa', '=', 'siswa.id_siswa')->where('uang_pkl.id_uang_pkl', $id)->first();
         return view('halaman_bendahara.uang_pkl.detail', compact('detail', 'nama'));
+    }
+
+    public function cari(Request $request)
+    {
+        $pilih_kelas = Kelas::all();
+        $pembayaran = Pembayaran::where('jenis_pembayaran', 'Uang PKL')->first();
+        $data = Uang_PKL::rightjoin('siswa', 'uang_pkl.id_siswa', '=', 'siswa.id_siswa')->leftjoin('kelas', 'siswa.id_kelas', '=', 'kelas.id_kelas')->leftjoin('jurusan', 'siswa.id_jurusan', '=', 'jurusan.id_jurusan')
+            ->select(
+                'kelas.kelas',
+                'kelas.id_kelas',
+                'jurusan.nama_jurusan',
+                'siswa.nama_siswa',
+                'siswa.nis',
+                'siswa.jk',
+                'uang_pkl.status as status_uang',
+                'uang_pkl.id_uang_pkl',
+                'uang_pkl.nominal',
+                'siswa.id_siswa'
+            );
+
+        if ($request->cari) {
+            $hasil = $data->where('kelas.id_kelas', $request->cari);
+        } else {
+            $hasil = $data;
+        }
+        $siswa = $hasil->get();
+        return view('halaman_bendahara.uang_pkl.index', compact('siswa', 'pembayaran', 'pilih_kelas'));
     }
 }

@@ -17,6 +17,17 @@
                 </div>
                 <div class="pd-20 bg-white border-radius-4 box-shadow mb-30">
                     <div class="pd-20">
+                        <form action="{{ route('uang_pkl_cari') }}" method="POST">
+                            @csrf
+                            <select class="form-control" name="cari" aria-label="Default select example">
+                                <option value="0">Pilih Kelas</option>
+
+                                @foreach ($pilih_kelas as $k)
+                                    <option value="{{ $k->id_kelas }}">{{ $k->nama_kelas }}</option>
+                                @endforeach
+                            </select>
+                            <button style="submit" class="btn btn-primary mt-2">Cari</button>
+                        </form>
                     </div>
                     <div class="pd-20 bg-white border-radius-4 box-shadow mb-30">
                         <div class="pb-20">
@@ -66,7 +77,6 @@
         </div>
     </div>
     @foreach ($siswa as $k)
-
         <!-- Modal -->
         <div class="modal fade" id="uangpkl{{ $k->id_siswa }}" tabindex="-1" aria-labelledby="exampleModalLabel"
             aria-hidden="true">
@@ -87,7 +97,6 @@
                             <select class="form-control" name="nominal" aria-label="Default select example" required>
                                 <option selected>Pilih Cicilan</option>
                                 @if ($k->nominal == null)
-
                                     <option value="{{ $pembayaran->nominal }}">Bayar Lunas</option>
                                     <option value="cicilan.350000">Cicilan 1 -- {{ number_format(350000) }}</option>
                                     <option value="cicilan.350000">Cicilan 2 -- {{ number_format(350000) }}</option>

@@ -135,6 +135,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::prefix('seragam')->group(function () {
         Route::get('index', [SeragamController::class, 'index'])->name('uang_seragam');
         Route::POST('cari', [SeragamController::class, 'cari'])->name('uang_seragam_cari');
+        // Route::get('cari', [SeragamController::class, 'cari_get'])->name('uang_seragam_cari');
         Route::POST('bayar_spp', [SeragamController::class, 'bayar_spp'])->name('uang_seragam_ujian');
         Route::get('detail/{id}', [SeragamController::class, 'detail'])->name('uang_seragam_detail');
     });
@@ -142,12 +143,14 @@ Route::group(['middleware' => 'auth'], function () {
     Route::prefix('dsp')->group(function () {
         Route::get('index', [DSPController::class, 'index'])->name('dsp');
         Route::POST('uang_dsp', [DSPController::class, 'uang_dsp'])->name('uang_dsp');
+        Route::POST('cari', [DSPController::class, 'cari'])->name('dsp_cari');
         Route::get('detail/{id}', [DSPController::class, 'detail'])->name('dsp_detail');
     });
 
     Route::prefix('pkl')->group(function () {
         Route::get('index', [PKLController::class, 'index'])->name('pkl');
         Route::POST('uang_pkl', [PKLController::class, 'uang_pkl'])->name('uang_pkl');
+        Route::POST('cari', [PKLController::class, 'cari'])->name('uang_pkl_cari');
         Route::get('detail/{id}', [PKLController::class, 'detail'])->name('pkl_detail');
     });
 

@@ -165,4 +165,30 @@ class DSPController extends Controller
         $nama = Uang_DSP::leftjoin('siswa', 'uang_dsp.id_siswa', '=', 'siswa.id_siswa')->where('uang_dsp.id_siswa', $id)->first();
         return view('halaman_bendahara.uang_dsp.detail', compact('detail', 'nama'));
     }
+
+    public function cari(Request $request)
+    {
+        $pilih_kelas = Kelas::all();
+        $pembayaran = Pembayaran::where('jenis_pembayaran', 'Uang DSP')->first();
+        $data = Uang_DSP::rightjoin('siswa', 'uang_dsp.id_siswa', '=', 'siswa.id_siswa')->leftjoin('kelas', 'siswa.id_kelas', '=', 'kelas.id_kelas')->leftjoin('jurusan', 'siswa.id_jurusan', '=', 'jurusan.id_jurusan')
+            ->select(
+                'kelas.kelas',
+                'kelas.id_kelas',
+                'jurusan.nama_jurusan',
+                'siswa.nama_siswa',
+                'siswa.nis',
+                'siswa.jk',
+                'uang_dsp.status as status_uang',
+                'uang_dsp.id_uang_dsp',
+                'uang_dsp.nominal',
+                'siswa.id_siswa'
+            );
+        if ($request->cari) {
+            $hasil = $data->where('kelas.id_kelas', $request->cari);
+        } else {
+            $hasil = $data;
+        }
+        $siswa = $hasil->get();
+        return view('halaman_bendahara.uang_dsp.index', compact('siswa', 'pilih_kelas', 'pembayaran'));
+    }
 }
