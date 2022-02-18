@@ -35,21 +35,29 @@ class LaporanController extends Controller
     public function cari_bulan(Request $request)
     {
         $periode = $request->periode;
-        $cari = DB::table('laporan');
+        $user_kepsek = User::where('status', 'kepsek')->first();
+        $user_yayasan = User::where('status', 'ketua_yayasan')->first();
+
+        // $cari = DB::table('laporan');
+        $cari = Laporan::where('status', 'pendapatan');
+        $cari2 = Laporan::where('status', 'pengeluaran');
         $cari_bulan = DB::table('laporan')
             ->select(DB::raw('SUM(jumlah_pendapatan) as pendapatan'), DB::raw('SUM(jumlah_pengeluaran) as pengeluaran'));
 
         if ($request->periode) {
             $hasil = $cari->whereMonth('tanggal_pendapatan', [$request->periode])->orwhereMonth('tanggal_pengeluaran', [$request->periode]);
-            $hasil2 = $cari_bulan->whereMonth('tanggal_pendapatan', [$request->periode])->orwhereMonth('tanggal_pengeluaran', [$request->periode]);
+            $hasil2 = $cari->whereMonth('tanggal_pendapatan', [$request->periode])->orwhereMonth('tanggal_pengeluaran', [$request->periode]);
+            $hasil3 = $cari_bulan->whereMonth('tanggal_pendapatan', [$request->periode])->orwhereMonth('tanggal_pengeluaran', [$request->periode]);
         } else {
             $hasil = $cari;
-            $hasil = $cari_bulan;
+            $hasil2 = $cari2;
+            $hasil3 = $cari_bulan;
         }
 
-        $laporan = $hasil->get();
-        $jumlah = $hasil2->first();
-        return view('halaman_bendahara.laporan.laporan_keungan_bulanan', compact('laporan', 'jumlah', 'periode'));
+        $laporan_pendapatan = $hasil->get();
+        $laporan_pengeluaran = $hasil2->get();
+        $jumlah = $hasil3->first();
+        return view('halaman_bendahara.laporan.laporan_keungan_bulanan', compact('laporan_pendapatan', 'laporan_pengeluaran', 'jumlah', 'user_kepsek', 'user_yayasan'));
     }
 
     public function print($periode)
