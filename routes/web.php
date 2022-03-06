@@ -9,6 +9,7 @@ use App\Http\Controllers\GuruController;
 use App\Http\Controllers\JurusanController;
 use App\Http\Controllers\KelasController;
 use App\Http\Controllers\KelolaAkunController;
+use App\Http\Controllers\LaporanArsipController;
 use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\LaporanGuruMahasiswa;
 use App\Http\Controllers\PembayaranController;
@@ -201,18 +202,23 @@ Route::group(['middleware' => 'auth'], function () {
         Route::POST('gaji_tahunan', [LaporanGuruMahasiswa::class, 'gaji_tahunan'])->name('gaji_tahunan');
         Route::get('print_gaji_tahun/{cari_guru_tahun}', [LaporanGuruMahasiswa::class, 'print_gaji_tahun'])->name('print_gaji_tahun');
         Route::get('print_gaji_tahun', [LaporanGuruMahasiswa::class, 'print_gaji_tahun1'])->name('print_gaji_tahun1');
-        // Route::get('print_gaji_bulan/{cari_guru_bulanan}', [LaporanGuruMahasiswa::class, 'print_gaji_bulan'])->name('print_gaji_bulan');
-        // Route::get('print_gaji_bulan1', [LaporanGuruMahasiswa::class, 'print_gaji_bulan1'])->name('print_gaji_bulan1');
     });
 
     Route::prefix('slip_gaji')->group(function () {
         Route::get('slip_ganji', [SlipGajiController::class, 'slip_ganji'])->name('slip_ganji');
         Route::get('detail_slip_gaji/{id_guru}', [SlipGajiController::class, 'detail_slip_gaji'])->name('detail_slip_gaji');
         Route::get('cetak_slide/{periode}', [SlipGajiController::class, 'cetak_slide'])->name('cetak_slide');
-        // Route::POST('gaji_tahunan', [SlipGajiController::class, 'gaji_tahunan'])->name('gaji_tahunan');
-        // Route::get('print_gaji_tahun/{cari_guru_tahun}', [SlipGajiController::class, 'print_gaji_tahun'])->name('print_gaji_tahun');
-        // Route::get('print_gaji_tahun', [SlipGajiController::class, 'print_gaji_tahun1'])->name('print_gaji_tahun1');
-        // Route::get('print_gaji_bulan/{cari_guru_bulanan}', [LaporanGuruMahasiswa::class, 'print_gaji_bulan'])->name('print_gaji_bulan');
-        // Route::get('print_gaji_bulan1', [LaporanGuruMahasiswa::class, 'print_gaji_bulan1'])->name('print_gaji_bulan1');
+    });
+    Route::prefix('laporan_arsip')->group(function () {
+        Route::get('piutang', [LaporanArsipController::class, 'piutang'])->name('piutang');
+        Route::POST('cari_piutang', [LaporanArsipController::class, 'cari_piutang'])->name('cari_piutang');
+        Route::get('piutang_print', [LaporanArsipController::class, 'piutang_print'])->name('piutang_print');
+        Route::get('piutang_print/{id}', [LaporanArsipController::class, 'piutang_print1'])->name('piutang_print1');
+
+
+        Route::get('arsip_siswa', [LaporanArsipController::class, 'arsip_siswa'])->name('arsip_siswa');
+        Route::POST('cari_arsip', [LaporanArsipController::class, 'cari_arsip'])->name('cari_arsip');
+        Route::get('arsip_print', [LaporanArsipController::class, 'arsip_print'])->name('arsip_print');
+        Route::get('arsip_print1/{id}', [LaporanArsipController::class, 'arsip_print1'])->name('arsip_print1');
     });
 });

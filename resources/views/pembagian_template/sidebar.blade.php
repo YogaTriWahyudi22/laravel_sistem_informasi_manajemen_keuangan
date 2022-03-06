@@ -55,7 +55,6 @@
                         </a>
                     </li>
                 @elseif(Auth::user()->status == 'bendahara')
-
                     <li>
                         <a href="{{ route('dashboard') }}" class="dropdown-toggle no-arrow">
                             <span class="micon icon-copy fa fa-dashboard ml-1"></span><span
@@ -98,10 +97,21 @@
 
                     <li>
                         <a href="{{ route('laporan') }}" class="dropdown-toggle no-arrow">
-                            <span class="micon icon-copy fa fa-tasks"></span><span class="mtext">Laporan</span>
+                            <span class="micon icon-copy fa fa-tasks"></span><span class="mtext">Laporan
+                                Keuangan</span>
                         </a>
                     </li>
 
+                    <li class="dropdown">
+                        <a href="javascript:;" class="dropdown-toggle">
+                            <span class="micon icon-copy fa fa-level-down"></span><span class="mtext"> Laporan
+                                Arsip</span>
+                        </a>
+                        <ul class="submenu">
+                            <li><a href="{{ route('piutang') }}">Piutang</a></li>
+                            <li><a href="{{ route('arsip_siswa') }}">Arsip Siswa</a></li>
+                        </ul>
+                    </li>
                 @elseif(Auth::user()->status == 'kepsek')
                     <li>
                         <a href="{{ route('dashboard') }}" class="dropdown-toggle no-arrow">

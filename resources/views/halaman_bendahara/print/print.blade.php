@@ -12,6 +12,29 @@
 
 <body>
     {{-- <div class="main-container"> --}}
+    <center>
+        <table width="80%">
+            <tr>
+                <td><img src="{{ asset('gambar/logo.png') }}" width="100" height="100"></td>
+                <td align="center">
+                    <font style="font-family: Tahoma; font-size:12;">PEMERINTAH PROVINSI SUMATERA BARAT </font>
+                    <br>
+                    <font style="font-family: Tahoma; font-size:14;"><b>SMK Cendana Padang Panjang</b></font>
+                    <br>
+                    <font style="font-family: Tahoma; font-size:10;">Paninjauan, Kec. Sepuluh Koto, Kabupaten Tanah
+                        Datar, Sumatera Barat 27118 </font><br>
+                    <font style="font-family: Tahoma; font-size:10;">(0752) 5748211
+                    </font><br>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <hr style="border: 2px solid black;">
+                    <hr style="border: 0.3px solid rgb(104, 104, 104); margin-top: -4px;">
+                </td>
+            </tr>
+        </table>
+    </center>
     <div class="pd-ltr-20 xs-pd-20-10">
         <div class="min-height-200px">
 
